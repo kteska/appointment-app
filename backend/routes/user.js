@@ -1,3 +1,8 @@
+const userService = require('../services/user/service')
+
 const userRoutes = (app) => {
-    app.get('/user/login')
+    app.post('/user/login', userService.login)
+    app.post('/user/register', userService.register)
 }
+
+module.exports = userRoutes

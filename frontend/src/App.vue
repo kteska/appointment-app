@@ -28,5 +28,6 @@ html, body {
 
 #app {
   font-family: 'Roboto', sans-serif;
+  background-color: #ACD2ED;
 }
 </style>

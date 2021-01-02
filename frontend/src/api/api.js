@@ -1,15 +1,15 @@
 import axios from "axios";
 const http = axios.create({
-  baseURL: "https://pokeapi.co/api/v2",
+  baseURL: "http://localhost:3000"
 });
 
-export const getPokemons = async (url) => {
+export const getAllQuestions = async () => {
   let result = false;
   try {
-    result = await http.get(url);
+    result = await http.get("/question/getAll");
     result = result.data;
   } catch (error) {
-    result = error.message.data;
+    result = error.response.data;
   }
   return result;
 };

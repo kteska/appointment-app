@@ -9,4 +9,4 @@ app.use(express.json());
 
 require('./routes/index')(app)
 
-app.listen(config.port, () => console.log(`Appointment app is listening on port ${config.port}`))
+app.listen(config.port, () => console.log(`QA app is listening on port ${config.port}`))

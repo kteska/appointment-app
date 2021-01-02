@@ -13,7 +13,6 @@ const questionRepository = {
 
     insert: async (question) => {
         assert(db)
-        console.log('question', question)
         const result = await db.collection('questions').insertOne(question)
         console.log('error', result.result)
         return Boolean(result.result.ok)

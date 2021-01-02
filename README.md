@@ -1,1 +1,1 @@
-# appointment-app
+# QA-app

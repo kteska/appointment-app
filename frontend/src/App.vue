@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app id="app">
       <Main/>
   </v-app>
 </template>
@@ -19,3 +19,14 @@ export default {
   }),
 };
 </script>
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@300&family=Roboto&display=swap');
+html, body {
+  /*font-family: 'Mukta', sans-serif;*/
+  font-family: 'Roboto', sans-serif;
+}
+
+#app {
+  font-family: 'Roboto', sans-serif;
+}
+</style>

@@ -1,10 +1,14 @@
 <template>
-  <h1>ASK QUESTION</h1>
+  <QuestionForm />
 </template>
 
 <script>
+import QuestionForm from "../components/QuestionForm";
 export default {
   name: "AskQuestion",
+  components: {
+    QuestionForm,
+  },
 };
 </script>
 

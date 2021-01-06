@@ -46,7 +46,6 @@ import QuestionCard from "./QuestionCard";
 export default {
   name: "Main",
   data: () => ({
-    selection: 1,
     questions: [],
   }),
   components: {
@@ -61,6 +60,7 @@ export default {
       getAllQuestions()
         .then((res) => {
           this.questions = res;
+          console.log(this.questions);
         })
         .catch((err) => {
           console.log(err);
@@ -118,11 +118,11 @@ section:nth-of-type(3) {
   align-content: center; */
 }
 
-#app {
+/* #app {
   background-image: url(../assets/sail1.jpg);
   background-repeat: no-repeat;
   background-size: cover;
-}
+} */
 #section-2 {
   background: white;
 }
@@ -134,7 +134,7 @@ section:nth-of-type(3) {
   width: 100%;
   height: 100%;
   z-index: 1;
-  background: rgba(0, 0, 0, 0.2);
+  /* background: rgba(0, 0, 0, 0.2); */
   /* box-shadow: inset 120px 100px 250px #ffffff, inset -120px -100px 250px #ffffff; */
 }
 .nav-button {

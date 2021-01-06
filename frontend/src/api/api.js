@@ -13,3 +13,14 @@ export const getAllQuestions = async () => {
   }
   return result;
 };
+
+export const updateAnswer = async (params) => {
+  let result = false;
+  try {
+    result = await http.put("/question/updateAnswer", { id: params.id, answer: params.answer });
+    result = result.data;
+  } catch (error) {
+    result = error.response.data;
+  }
+  return result;
+}

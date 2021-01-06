@@ -10,8 +10,10 @@ export default new Vuetify({
     theme: {
         themes: {
           light: {
-            primary: "#ACD2ED", //blue
+            primary: "#ACD2ED", //blue#acd2ed
             blue: "#9AD1D4",
+            extra: "#61aadd",
+            dar: "#61a9dde0",
             carrot: "#e67e22",
             gre: "#f1f2f6",
             asfalt: "#34495e",

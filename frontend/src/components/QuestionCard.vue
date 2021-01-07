@@ -123,7 +123,7 @@
 </template>
 
 <script>
-import { updateAnswer } from "../api/api";
+import { addAnswer } from "../api/api";
 
 export default {
   name: "QuestionCard",
@@ -149,11 +149,9 @@ export default {
       if (!this.valid) {
         return;
       } else {
-        updateAnswer({ id: this.questionID, answer: answerForm });
+        addAnswer({ questionId: this.questionID, givenBy: this.name, answer: answerForm });
         this.alertDialog = true;
-        setTimeout(() => {
-          this.dialog = false;
-        }, 5000);
+        this.dialog = false;
       }
     },
     openDialog(questionId, username, title) {
@@ -167,6 +165,7 @@ export default {
       this.dialog = false;
       this.name = "";
       this.answer = "";
+      this.$refs.form.reset();
       this.$refs.form.resetValidation();
     },
     openAnswerTimeline() {

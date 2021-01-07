@@ -26,17 +26,17 @@ const questionRepository = {
         return result
     },
 
-    updateAnswer: async (id, answer) => {
-        assert(db)
-        const result = await db.collection('questions').updateOne(
-          { _id: ObjectID(id) },
-          {
-            $set: {
-              answer: answer
-            }
-          }
-        );
-        return result
-    },
+    // updateAnswer: async (id, answer) => {
+    //     assert(db)
+    //     const result = await db.collection('questions').updateOne(
+    //       { _id: ObjectID(id) },
+    //       {
+    //         $set: {
+    //           answer: answer
+    //         }
+    //       }
+    //     );
+    //     return result
+    // },
 }
 module.exports = questionRepository

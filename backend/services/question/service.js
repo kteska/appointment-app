@@ -25,9 +25,8 @@ const addQuestion = async (req, res, next) => {
     title = req.body.title
     username = req.body.username
     category = req.body.category
-    answer = req.body.answer
     try {
-        const question = await QuestionFactory({title, username, category, answer})
+        const question = await QuestionFactory({title, username, category})
         const result = await questionRepository.insert(question.dto)
             .catch(error => console.error(error))
 
@@ -48,26 +47,26 @@ const addQuestion = async (req, res, next) => {
         return next()
     }
     console.log("Request ended")
-    res.json(`Question form accepted -->  title: ${title} username: ${username} category: ${category} answer: ${answer}`);
+    res.json(`Question form accepted -->  title: ${title} username: ${username} category: ${category}`);
     next()
 }
 
-const updateAnswer = async (req, res, next) => {
-    id = req.body.id
-    answer = req.body.answer
-    console.log('Params', id, answer)
-    const result = await questionRepository.updateAnswer(id, answer)
-            .catch(error => console.error(error))
-    if (!result) {
-        res.status(400)
-        res.json('Error while updating answer')
-        return next()
-    }
-    console.log('Update answer - success', id, answer)
-    res.json('Update answer - success', id, answer)
-    next()
-}
+// const updateAnswer = async (req, res, next) => {
+//     id = req.body.id
+//     answer = req.body.answer
+//     console.log('Params', id, answer)
+//     const result = await questionRepository.updateAnswer(id, answer)
+//             .catch(error => console.error(error))
+//     if (!result) {
+//         res.status(400)
+//         res.json('Error while updating answer')
+//         return next()
+//     }
+//     console.log('Update answer - success', id, answer)
+//     res.json('Update answer - success', id, answer)
+//     next()
+// }
 
 init().catch(error => console.error(error))
 
-module.exports = { hello, getAllQuestions, addQuestion, updateAnswer }
+module.exports = { hello, getAllQuestions, addQuestion }

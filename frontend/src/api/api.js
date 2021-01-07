@@ -3,6 +3,18 @@ const http = axios.create({
   baseURL: "http://localhost:3000"
 });
 
+
+export const addQuestion = async (params) => {
+  let result = false;
+  try {
+    result = await http.post("/question/add", { title: params.title, username: params.username, category: params.category });
+    result = result.data;
+  } catch (error) {
+    result = error.response.data;
+  }
+  return result;
+};
+
 export const getAllQuestions = async () => {
   let result = false;
   try {
@@ -14,13 +26,24 @@ export const getAllQuestions = async () => {
   return result;
 };
 
-export const updateAnswer = async (params) => {
+export const addAnswer = async (params) => {
   let result = false;
   try {
-    result = await http.put("/question/updateAnswer", { id: params.id, answer: params.answer });
+    result = await http.post("/answer/add", { questionId: params.questionId, givenBy: params.givenBy, answer: params.answer });
     result = result.data;
   } catch (error) {
     result = error.response.data;
   }
   return result;
-}
+};
+
+export const getAllAnswers = async () => {
+  let result = false;
+  try {
+    result = await http.get("/answer/getAll");
+    result = result.data;
+  } catch (error) {
+    result = error.response.data;
+  }
+  return result;
+};

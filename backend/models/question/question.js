@@ -1,8 +1,8 @@
-const Question = ({ title, username, category, answer }) => {
+const Question = ({ title, username, category }) => {
     const question = {
-        title, username, category, answer,
+        title, username, category,
         
-        dto: { title, username, category, answer }
+        dto: { title, username, category }
     }
     return question
 }

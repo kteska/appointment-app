@@ -13,7 +13,7 @@
     <div class="question-form">
       <div>
         <v-card width="660" height="757" class="elevation-6 card-form" tile>
-          <v-card-title>Ask a question</v-card-title>
+          <v-card-title class="headline">Ask a question</v-card-title>
           <v-card-text>
             <v-form ref="form" v-model="valid" lazy-validation>
               <v-text-field color="extra" v-model="name" :counter="20" :rules="nameRules" label="Name" required></v-text-field>
@@ -22,9 +22,10 @@
 
               <v-select v-model="selectedCategory" :items="categories" color="bluey" chips attach :rules="[(v) => !!v || 'You have to choose category']" label="Category" required> </v-select>
 
-              <v-btn :disabled="!valid" color="success" class="mr-4" @click="submitQuestion(question, name, selectedCategory)"> Submit </v-btn>
+              <v-btn :disabled="!valid" dark color="extra" class="mr-4" @click="submitQuestion(question, name, selectedCategory)"> Submit </v-btn>
             </v-form>
           </v-card-text>
+          <v-alert :value="alert" dense text type="success"> Your question has been <strong>saved!</strong> Now let's wait for <strong>answers!</strong> </v-alert>
         </v-card>
       </div>
       <div>
@@ -39,6 +40,7 @@ import { addQuestion } from "../api/api";
 export default {
   name: "QuestionForm",
   data: () => ({
+    alert: false,
     valid: true,
     name: "",
     nameRules: [(v) => !!v || "Name is required", (v) => (v && v.length <= 20) || "Name must be less than 20 characters"],
@@ -70,16 +72,22 @@ export default {
         return;
       } else {
         addQuestion({ title: question, username: name, category: category });
-        this.alertDialog = true;
 
         this.$refs.form.reset();
         this.$refs.form.resetValidation();
+        this.alert = true;
+        setTimeout(() => {
+          this.alert = false;
+        }, 4000);
       }
     },
   },
 };
 </script>
 <style scoped>
+.questionform-card {
+  margin-top: 50px;
+}
 .question-form {
   display: flex;
   justify-content: stretch;
@@ -87,6 +95,7 @@ export default {
 }
 .card-form {
   padding: 50px;
+  padding-top: 140px;
   z-index: 5;
 }
 </style>

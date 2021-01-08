@@ -37,7 +37,8 @@ const addAnswer = async (req, res, next) => {
 }
 
 const getAllAnswers = async (req, res, next) => {
-    const answers = await answerRepository.find()
+    questionId = req.body.questionId
+    const answers = await answerRepository.find(questionId)
     if (!answers) {
         res.status(400)
         res.json('There\'s no answers')

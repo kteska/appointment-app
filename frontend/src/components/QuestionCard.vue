@@ -2,7 +2,7 @@
   <div>
     <div class="cards">
       <div v-for="question in this.questions" :key="question.title">
-        <v-card class="mx-auto my-12 elevation-6" max-width="374" @click="openAnswerTimeline()">
+        <v-card class="mx-auto my-12 elevation-6" max-width="404">
           <v-card-title>
             <v-avatar color="extra"><v-icon dark> mdi-account-question </v-icon></v-avatar>
             <span style="margin-left: 12px">{{ question.username }} asks:</span>
@@ -28,6 +28,8 @@
 
           <v-card-actions>
             <v-btn color="extra" dark tile class="mr-4" @click="openDialog(question._id, question.username, question.title)"> Answer </v-btn>
+
+            <v-btn color="extra" dark tile class="mr-4" @click="openAnswerTimeline(question._id)"> See answers </v-btn>
           </v-card-actions>
         </v-card>
       </div>
@@ -52,78 +54,33 @@
     </v-dialog>
 
     <!-- Answer dialog timeline -->
-    <v-dialog v-model="timelineAnswer" max-width="420" max-height="500">
+    <v-dialog v-model="timelineAnswer" max-width="1220" max-height="500">
       <v-card>
-        <v-timeline align-top dense>
-          <v-timeline-item color="pink" small>
-            <v-row class="pt-1">
-              <v-col cols="3">
-                <strong>5pm</strong>
-              </v-col>
-              <v-col>
-                <strong>New Icon</strong>
-                <div class="caption">Mobile App</div>
-              </v-col>
-            </v-row>
-          </v-timeline-item>
-
-          <v-timeline-item color="teal lighten-3" small>
-            <v-row class="pt-1">
-              <v-col cols="3">
-                <strong>3-4pm</strong>
-              </v-col>
-              <v-col>
-                <strong>Design Stand Up</strong>
-                <div class="caption mb-2">Hangouts</div>
-                <v-avatar>
-                  <v-img
-                    src="https://avataaars.io/?avatarStyle=Circle&topType=LongHairFrida&accessoriesType=Kurt&hairColor=Red&facialHairType=BeardLight&facialHairColor=BrownDark&clotheType=GraphicShirt&clotheColor=Gray01&graphicType=Skull&eyeType=Wink&eyebrowType=RaisedExcitedNatural&mouthType=Disbelief&skinColor=Brown"
-                  ></v-img>
-                </v-avatar>
-                <v-avatar>
-                  <v-img
-                    src="https://avataaars.io/?avatarStyle=Circle&topType=ShortHairFrizzle&accessoriesType=Prescription02&hairColor=Black&facialHairType=MoustacheMagnum&facialHairColor=BrownDark&clotheType=BlazerSweater&clotheColor=Black&eyeType=Default&eyebrowType=FlatNatural&mouthType=Default&skinColor=Tanned"
-                  ></v-img>
-                </v-avatar>
-                <v-avatar>
-                  <v-img
-                    src="https://avataaars.io/?avatarStyle=Circle&topType=LongHairMiaWallace&accessoriesType=Sunglasses&hairColor=BlondeGolden&facialHairType=Blank&clotheType=BlazerSweater&eyeType=Surprised&eyebrowType=RaisedExcited&mouthType=Smile&skinColor=Pale"
-                  ></v-img>
-                </v-avatar>
-              </v-col>
-            </v-row>
-          </v-timeline-item>
-
-          <v-timeline-item color="pink" small>
-            <v-row class="pt-1">
-              <v-col cols="3">
-                <strong>12pm</strong>
-              </v-col>
-              <v-col>
-                <strong>Lunch break</strong>
-              </v-col>
-            </v-row>
-          </v-timeline-item>
-
-          <v-timeline-item color="teal lighten-3" small>
-            <v-row class="pt-1">
-              <v-col cols="3">
-                <strong>9-11am</strong>
-              </v-col>
-              <v-col>
-                <strong>Finish Home Screen</strong>
-                <div class="caption">Web App</div>
-              </v-col>
-            </v-row>
-          </v-timeline-item>
-        </v-timeline>
+        <div style="padding: 50px">
+          <v-timeline :dense="$vuetify.breakpoint.smAndDown">
+            <v-timeline-item v-for="answer in this.answers" :key="answer._id" color="extra">
+              <v-card class="elevation-2">
+                <v-card-title class="headline answer-title"> {{ answer.givenBy }} answers: </v-card-title>
+                <v-card-text class="answer-text">
+                  {{ answer.answerForm }}
+                </v-card-text>
+              </v-card>
+            </v-timeline-item>
+          </v-timeline>
+        </div>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="noAnswerDialog" max-width="450">
+      <v-card>
+        <v-card-title>There's no answers to this question yet 🔜</v-card-title>
+        <v-card-text>Feel free to give an answer!</v-card-text>
       </v-card>
     </v-dialog>
   </div>
 </template>
 
 <script>
-import { addAnswer } from "../api/api";
+import { addAnswer, getAllAnswers } from "../api/api";
 
 export default {
   name: "QuestionCard",
@@ -131,7 +88,9 @@ export default {
     questions: Array,
   },
   data: () => ({
+    noAnswerDialog: false,
     timelineAnswer: false,
+    answers: [],
     alertDialog: false,
     dialog: false,
     username: "",
@@ -149,9 +108,13 @@ export default {
       if (!this.valid) {
         return;
       } else {
-        addAnswer({ questionId: this.questionID, givenBy: this.name, answer: answerForm });
+        addAnswer({ questionId: this.questionID, givenBy: this.name, answer: answerForm }).then((res) => {
+          console.log("Add answer result", res);
+        });
         this.alertDialog = true;
         this.dialog = false;
+        this.$refs.form.reset();
+        this.$refs.form.resetValidation();
       }
     },
     openDialog(questionId, username, title) {
@@ -168,8 +131,16 @@ export default {
       this.$refs.form.reset();
       this.$refs.form.resetValidation();
     },
-    openAnswerTimeline() {
-      this.timelineAnswer = true;
+    openAnswerTimeline(questionId) {
+      getAllAnswers({ questionId: questionId }).then((res) => {
+        console.log("get all answers result ", res);
+        if (res.length === 0) {
+          this.noAnswerDialog = true;
+        } else {
+          this.answers = res;
+          this.timelineAnswer = true;
+        }
+      });
     },
   },
 };
@@ -189,5 +160,12 @@ export default {
 .answer-button:hover {
   background: #61aadd;
   color: white !important;
+}
+.answer-text {
+  color: #1f1f1f !important;
+  font-size: 16px;
+}
+.answer-title {
+  color: #3680b6 !important;
 }
 </style>

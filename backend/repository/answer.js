@@ -20,9 +20,9 @@ const answerRepository = {
         return Boolean(result.result.ok)
     },
     
-    find: async () => {
+    find: async (params) => {
         assert(db)
-        const result = await db.collection('answers').find().toArray()
+        const result = await db.collection('answers').find({ questionId: params }).toArray()
         return result
     },
 }

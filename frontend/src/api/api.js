@@ -37,10 +37,10 @@ export const addAnswer = async (params) => {
   return result;
 };
 
-export const getAllAnswers = async () => {
+export const getAllAnswers = async (params) => {
   let result = false;
   try {
-    result = await http.get("/answer/getAll");
+    result = await http.post("/answer/getAll", {...params});
     result = result.data;
   } catch (error) {
     result = error.response.data;

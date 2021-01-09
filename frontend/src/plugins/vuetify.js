@@ -13,6 +13,7 @@ export default new Vuetify({
             primary: "#ACD2ED", //blue#acd2ed
             blue: "#9AD1D4",
             extra: "#61aadd",
+            light: "#EEEEFF",
             bluey: "#3591d3",
             dar: "#61a9dde0",
             carrot: "#e67e22",

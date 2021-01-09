@@ -24,7 +24,7 @@
     </section>
     <section id="info-section">
       <div class="info-section">
-        <h6>You'll find about ...</h6>
+        <p class="display-3">You'll find about</p>
         <ul>
           <li><p>sailing</p></li>
           <li><p>best practices</p></li>
@@ -71,6 +71,7 @@ export default {
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Mukta:wght@300&family=Roboto&display=swap");
 nav {
   background: transparent;
 }
@@ -139,8 +140,8 @@ section:nth-of-type(3) {
 }
 .nav-button {
   font-size: 16px !important;
-  font-weight: 800;
   text-transform: none;
+  font-family: "Roboto", sans-serif;
 }
 .app-bar {
   z-index: 2;
@@ -167,16 +168,14 @@ h1 {
 }
 p {
   margin: 0;
-  font-size: 1.5rem;
-}
-p.subtitle {
-  text-align: left;
+  font-size: 1.4rem;
 }
 #info-section {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(1, 1fr);
   grid-column-gap: 20px;
+  font-family: "Roboto", sans-serif;
 }
 .info-section-img {
   width: 800px;

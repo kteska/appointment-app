@@ -13,19 +13,20 @@
     <div class="question-form">
       <div>
         <v-card width="660" height="757" class="elevation-6 card-form" tile>
-          <v-card-title class="headline">Ask a question</v-card-title>
+          <v-card-title class="display-2">Ask a question</v-card-title>
           <v-card-text>
             <v-form ref="form" v-model="valid" lazy-validation>
               <v-text-field color="extra" v-model="name" :counter="20" :rules="nameRules" label="Name" required></v-text-field>
 
-              <v-text-field v-model="question" color="extra" auto-grow label="Enter your question here..." :counter="50" :rules="questionRules" required> </v-text-field>
+              <v-text-field v-model="question" color="extra" auto-grow label="Enter your question here..." :counter="100" :rules="questionRules" required> </v-text-field>
 
               <v-select v-model="selectedCategory" :items="categories" color="bluey" chips attach :rules="[(v) => !!v || 'You have to choose category']" label="Category" required> </v-select>
 
-              <v-btn :disabled="!valid" dark color="extra" class="mr-4" @click="submitQuestion(question, name, selectedCategory)"> Submit </v-btn>
+              <v-btn dark color="extra" class="mr-4" @click="submitQuestion(question, name, selectedCategory)"> Submit </v-btn>
             </v-form>
           </v-card-text>
           <v-alert :value="alert" dense text type="success"> Your question has been <strong>saved!</strong> Now let's wait for <strong>answers!</strong> </v-alert>
+          <v-alert :value="alert" dense text type="error">{{ this.errorMessage }}</v-alert>
         </v-card>
       </div>
       <div>
@@ -40,12 +41,14 @@ import { addQuestion } from "../api/api";
 export default {
   name: "QuestionForm",
   data: () => ({
+    alertError: false,
+    errorMessage: "",
     alert: false,
-    valid: true,
+    valid: false,
     name: "",
     nameRules: [(v) => !!v || "Name is required", (v) => (v && v.length <= 20) || "Name must be less than 20 characters"],
     question: "",
-    questionRules: [(v) => !!v || "Question is required", (v) => (v && v.length <= 50) || "Name must be less than 100 characters"],
+    questionRules: [(v) => !!v || "Question is required", (v) => (v && v.length <= 100) || "Name must be less than 100 characters"],
     selectedCategory: null,
     categories: ["Sailing", "Marinas", "Weather", "Equipment"],
     checkbox: false,
@@ -71,14 +74,32 @@ export default {
       if (!this.valid) {
         return;
       } else {
-        addQuestion({ title: question, username: name, category: category });
-
-        this.$refs.form.reset();
-        this.$refs.form.resetValidation();
-        this.alert = true;
-        setTimeout(() => {
-          this.alert = false;
-        }, 4000);
+        addQuestion({ title: question, username: name, category: category })
+          .then((res) => {
+            if (res.startsWith("Missing")) {
+              this.alertError = true;
+              setTimeout(() => {
+                this.alertError = false;
+                console.log("error", res);
+                this.errorMessage = res;
+              }, 3000);
+            } else {
+              this.alert = true;
+              this.$refs.form.reset();
+              this.$refs.form.resetValidation();
+              setTimeout(() => {
+                this.alert = false;
+              }, 4000);
+            }
+          })
+          .catch((err) => {
+            this.alertError = true;
+            setTimeout(() => {
+              this.alertError = false;
+              console.log("error", err);
+              this.errorMessage = err;
+            }, 3000);
+          });
       }
     },
   },

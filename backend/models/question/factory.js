@@ -4,13 +4,13 @@ class QuestionError extends Error {}
 const QuestionFactory = async ({ title, username, category }) => {
 
     if (!title) {
-        throw new AppointmentError("Missing title")
+        throw new QuestionError("Missing title")
     }
     if (!username) {
-        throw new AppointmentError("Missing username")
+        throw new QuestionError("Missing username")
     }
     if (!category) {
-        throw new AppointmentError("Missing category")
+        throw new QuestionError("Missing category")
     }
 
     return Question({ title, username, category });

@@ -2,7 +2,7 @@
   <div>
     <div class="cards">
       <div v-for="question in this.questions" :key="question.title">
-        <v-card class="mx-auto my-12 elevation-6 card-outter" max-width="400" height="360">
+        <v-card class="mx-auto my-12 elevation-6 card-outter" max-width="400" height="380">
           <v-card-title>
             <v-avatar color="extra"><v-icon dark> mdi-account-question </v-icon></v-avatar>
             <span style="margin-left: 12px">{{ question.username }} asks:</span>
@@ -36,8 +36,8 @@
     </div>
 
     <!-- Dialog - answer form -->
-    <v-dialog v-model="dialog" max-width="450" height="540">
-      <v-card width="450" height="540" class="card-outter elevation-12">
+    <v-dialog v-model="dialog" max-width="460" height="560">
+      <v-card width="460" height="560" class="card-outter elevation-12">
         <v-card-title>Your answer to {{ this.username }}'s question</v-card-title>
         <v-divider></v-divider>
         <v-card-title>{{ this.title }}</v-card-title>
@@ -152,6 +152,10 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Mukta:wght@300&family=Roboto&display=swap");
+.v-card__text,
+.v-card__title {
+  word-break: normal; /* maybe !important  */
+}
 .cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -170,6 +174,7 @@ export default {
 .answer-text {
   color: #1f1f1f !important;
   font-size: 16px;
+  text-align: justify;
 }
 .answer-title {
   color: #3680b6 !important;

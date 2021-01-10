@@ -2,7 +2,7 @@
   <div>
     <nav>
       <v-app-bar color="white" class="elevation-0 app-bar">
-        <v-toolbar-title>QA app</v-toolbar-title>
+        <v-toolbar-title style="font-family: 'Sorts Mill Goudy', serif; font-size: 25px">QA</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn class="elevation-0 nav-button" color="transparent" to="/"> Home </v-btn>
         <v-btn class="elevation-0 nav-button" color="transparent" to="/ask"> Ask </v-btn>
@@ -26,7 +26,7 @@
             </v-form>
           </v-card-text>
           <v-alert :value="alert" dense text type="success"> Your question has been <strong>saved!</strong> Now let's wait for <strong>answers!</strong> </v-alert>
-          <v-alert :value="alert" dense text type="error">{{ this.errorMessage }}</v-alert>
+          <!-- <v-alert :value="alert" dense text type="error">{{ this.errorMessage }}</v-alert> -->
         </v-card>
       </div>
       <div>
@@ -76,21 +76,21 @@ export default {
       } else {
         addQuestion({ title: question, username: name, category: category })
           .then((res) => {
-            if (res.startsWith("Missing")) {
-              this.alertError = true;
-              setTimeout(() => {
-                this.alertError = false;
-                console.log("error", res);
-                this.errorMessage = res;
-              }, 3000);
-            } else {
-              this.alert = true;
-              this.$refs.form.reset();
-              this.$refs.form.resetValidation();
-              setTimeout(() => {
-                this.alert = false;
-              }, 4000);
-            }
+            console.log(res);
+            // if (res.startsWith("Missing")) {
+            //   this.alertError = true;
+            //   setTimeout(() => {
+            //     this.alertError = false;
+            //     console.log("error", res);
+            //     this.errorMessage = res;
+            //   }, 3000);
+            // } else {
+            this.alert = true;
+            this.$refs.form.reset();
+            this.$refs.form.resetValidation();
+            setTimeout(() => {
+              this.alert = false;
+            }, 4000);
           })
           .catch((err) => {
             this.alertError = true;
@@ -106,6 +106,7 @@ export default {
 };
 </script>
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy&display=swap");
 .questionform-card {
   margin-top: 50px;
 }

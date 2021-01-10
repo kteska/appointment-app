@@ -2,7 +2,7 @@
   <div>
     <nav>
       <v-app-bar color="white" class="elevation-0 app-bar">
-        <v-toolbar-title>QA app</v-toolbar-title>
+        <v-toolbar-title style="font-family: 'Sorts Mill Goudy', serif; font-size: 25px">QA</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn class="elevation-0 nav-button" color="transparent"> Home </v-btn>
         <v-btn class="elevation-0 nav-button" color="transparent" to="/ask"> Ask </v-btn>
@@ -46,6 +46,7 @@ import QuestionCard from "./QuestionCard";
 export default {
   name: "Main",
   data: () => ({
+    isActive: false,
     questions: [],
   }),
   components: {
@@ -72,6 +73,7 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Mukta:wght@300&family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy&display=swap");
 nav {
   background: transparent;
 }
@@ -109,7 +111,7 @@ section:nth-of-type(3) {
   background-image: url(../assets/sail3.jpg);
   background-repeat: no-repeat;
   background-size: cover;
-  height: 170vh; /*+60*/
+  height: 180vh; /*+60*/
   align-items: center;
   /* display: flex;
   flex-direction: row;
@@ -179,5 +181,7 @@ p {
 }
 .info-section-img {
   width: 800px;
+}
+.logo-img {
 }
 </style>

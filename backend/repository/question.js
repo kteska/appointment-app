@@ -19,24 +19,11 @@ const questionRepository = {
         console.log('error', result.result)
         return Boolean(result.result.ok)
     },
-    
+
     find: async () => {
         assert(db)
         const result = await db.collection('questions').find().toArray()
         return result
     },
-
-    // updateAnswer: async (id, answer) => {
-    //     assert(db)
-    //     const result = await db.collection('questions').updateOne(
-    //       { _id: ObjectID(id) },
-    //       {
-    //         $set: {
-    //           answer: answer
-    //         }
-    //       }
-    //     );
-    //     return result
-    // },
 }
 module.exports = questionRepository

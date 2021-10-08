@@ -2,18 +2,13 @@ const MongoClient = require('mongodb').MongoClient
 const assert = require('assert')
 const config = require('../config/config')
 
-// Connection URL
 const url = `mongodb://${config.mongo.host}:${config.mongo.port}/${config.mongo.db}`;
 
-// Database Name
 const dbName = config.mongo.db
 
-// Create a new MongoClient
 const client = new MongoClient(url, {
     useUnifiedTopology: true
 })
-
-// Use connect method to connect to the Server
 
 const connect = async () => {
     await client.connect(function(err) {
